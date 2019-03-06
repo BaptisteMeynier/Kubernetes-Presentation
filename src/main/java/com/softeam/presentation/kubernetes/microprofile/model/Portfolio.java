@@ -5,7 +5,7 @@ import com.softeam.presentation.kubernetes.microprofile.model.enums.Devise;
 import java.util.Objects;
 
 public class Portfolio {
-    private long id;
+    private Long id;
     private int amount;
     private Devise devise;
     private String manager;
@@ -13,14 +13,14 @@ public class Portfolio {
     private Portfolio() {
     }
 
-    private Portfolio(long id, int amount, Devise devise, String manager) {
+    private Portfolio(Long id, int amount, Devise devise, String manager) {
         this.id = id;
         this.amount = amount;
         this.devise = devise;
         this.manager = manager;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -36,12 +36,13 @@ public class Portfolio {
         return manager;
     }
 
-    public static IdStep builder() {
+    public static InitStep builder() {
         return new Builder();
     }
 
-    public interface IdStep {
-        AmountStep setId(long id);
+    public interface InitStep {
+        AmountStep setId(Long id);
+        DeviseStep setAmount(int amount);
     }
 
     public interface AmountStep {
@@ -56,14 +57,14 @@ public class Portfolio {
         Portfolio setManager(String manager);
     }
 
-    private static class Builder implements IdStep, AmountStep, DeviseStep, ManagerStep {
+    private static class Builder implements InitStep, AmountStep, DeviseStep, ManagerStep {
 
         private long id;
         private int amount;
         private Devise devise;
 
         @Override
-        public AmountStep setId(long id) {
+        public AmountStep setId(Long id) {
             this.id = id;
             return this;
         }
@@ -91,8 +92,8 @@ public class Portfolio {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Portfolio portfolio = (Portfolio) o;
-        return id == portfolio.id &&
-                amount == portfolio.amount &&
+        return amount == portfolio.amount &&
+                Objects.equals(id, portfolio.id) &&
                 devise == portfolio.devise &&
                 Objects.equals(manager, portfolio.manager);
     }

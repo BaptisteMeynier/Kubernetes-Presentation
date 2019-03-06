@@ -49,17 +49,21 @@
             <groupId>io.thorntail</groupId>
             <artifactId>jaxrs</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>arquillian</artifactId>
-            <scope>test</scope>
-        </dependency>
+
         <!-- DEPENDENCIES -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${version.h2}</version>
         </dependency>
+
+        <!-- TEST -->
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>arquillian</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -71,8 +75,16 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>package</goal>
+                            <goal>run</goal>
                         </goals>
+                        <configuration>
+                            <hollow>true</hollow>
+                            <debugPort>9999</debugPort>
+                            <properties>
+                                <thorntail.debug.port>9999</thorntail.debug.port>
+                            </properties>
+
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
