@@ -1,5 +1,9 @@
 package com.softeam.presentation.kubernetes.microprofile.rest.pagination;
 
+import org.wildfly.swarm.spi.runtime.annotations.ConfigurationValue;
+
+import javax.inject.Inject;
+
 public class PaginationConstants {
     public static final String X_TOTAL_COUNT = "X-Total-Count";
     public static final String X_PAGE_COUNT = "X-Page-Count";
@@ -10,7 +14,8 @@ public class PaginationConstants {
     public static final String PAGE_QUERY_PARAM = "page";
     public static final String PER_PAGE_QUERY_PARAM = "per_page";
     public static final int FIRST_PAGE = 1;
-    public static final int DEFAULT_PER_PAGE = 2;
-    public static final String FIRST_PAGE_STR = "1";
-    public static final String DEFAULT_PER_PAGE_STR= "2";
+    @Inject
+    @ConfigurationValue("pagination.default_per_page")
+    public int DEFAULT_PER_PAGE;
+
 }

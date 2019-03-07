@@ -5,21 +5,33 @@ import com.softeam.presentation.kubernetes.microprofile.rest.pagination.Paginate
 import com.softeam.presentation.kubernetes.microprofile.rest.param.PaginationParam;
 import com.softeam.presentation.kubernetes.microprofile.rest.param.PortfolioParam;
 import com.softeam.presentation.kubernetes.microprofile.service.PortfolioService;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Metered;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.validation.constraints.Past;
 import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
-@Path("book")
+@Path("portfolio")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Metered
+@Counted(unit = MetricUnits.NONE,
+        name = "itemsCheckedOut",
+        absolute = true,
+        monotonic = true,
+        displayName = "Checkout items",
+        description = "Metrics to show how many times checkoutItems method was called.",
+        tags = {"checkout=items"})
+@Timed(name = "itemsProcessed",
+        description = "Metrics to monitor the times of get portfolio.",
+        unit = MetricUnits.MILLISECONDS,
+        absolute = true)
 public class PortfolioEndpoint {
 
     @Inject

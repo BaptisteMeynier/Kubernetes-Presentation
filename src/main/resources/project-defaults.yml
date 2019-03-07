@@ -11,4 +11,23 @@ thorntail:
         driver-class-name: org.h2.Driver
         xa-datasource-name: org.h2.jdbcx.JdbcDataSource
         driver-module-name: com.h2database.h2
+  logging:
+    pattern-formatters:
+      LOG_FORMATTER:
+        pattern: "CUSTOM LOG FORMAT %p [%c] %s%e%n"
+    periodic-rotating-file-handlers:
+      FILE:
+        file:
+          path: target/MY_APP_NAME.log
+        suffix: .yyyy-MM-dd
+        named-formatter: LOG_FORMATTER
+    root-logger:
+      handlers:
+      - CONSOLE
+      - FILE
 
+health:
+  datasource:
+    max: 200
+pagination:
+  default_per_page: 5

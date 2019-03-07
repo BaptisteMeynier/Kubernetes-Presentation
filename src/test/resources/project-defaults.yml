@@ -11,4 +11,8 @@ thorntail:
         driver-class-name: org.h2.Driver
         xa-datasource-name: org.h2.jdbcx.JdbcDataSource
         driver-module-name: com.h2database.h2
-
+health:
+  datasource:
+    max: 200
+pagination:
+  default_per_page: 5
