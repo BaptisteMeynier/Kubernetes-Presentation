@@ -1,5 +1,6 @@
 package com.softeam.presentation.kubernetes.microprofile.rest;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.softeam.presentation.kubernetes.microprofile.rest.provider.LinkPaginationContainerResponseFilter;
 
 import javax.ws.rs.ApplicationPath;
@@ -11,9 +12,10 @@ import java.util.Set;
 public class PortfolioApplication extends Application {
 
     public Set<Class<?>> getClasses() {
-        Set<Class<?>> classes = new HashSet<>(2);
+        Set<Class<?>> classes = new HashSet<>(3);
         classes.add(PortfolioEndpoint.class);
         classes.add(LinkPaginationContainerResponseFilter.class);
+        classes.add(JacksonJaxbJsonProvider.class);
         return classes;
     }
 }

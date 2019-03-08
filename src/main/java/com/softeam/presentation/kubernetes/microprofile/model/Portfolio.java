@@ -2,10 +2,21 @@ package com.softeam.presentation.kubernetes.microprofile.model;
 
 import com.softeam.presentation.kubernetes.microprofile.model.enums.Devise;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
+//@XmlRootElement
+//@XmlAccessorType(XmlAccessType.FIELD)
 public class Portfolio {
     private Long id;
+  /*  @XmlElement(
+            name = "amount",
+            required = true,
+            nillable = false
+    )*/
     private int amount;
     private Devise devise;
     private String manager;

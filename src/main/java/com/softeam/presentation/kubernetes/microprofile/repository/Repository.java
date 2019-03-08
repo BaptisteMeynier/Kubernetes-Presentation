@@ -30,7 +30,8 @@ public class Repository {
     public List<Portfolio> getPortfolio(int offset, int totalReturnedValue) {
 
         final List<Portfolio> portfolios = new ArrayList<>();
-        final String selectQuery = String.format(SELECT_QUERY, offset, offset + totalReturnedValue);
+        final String selectQuery = String.format(SELECT_QUERY, offset, totalReturnedValue);
+        System.out.println(selectQuery);
         try (final Connection connection = ds.getConnection();
              final Statement statement = connection.createStatement();
              final ResultSet resultSet = statement.executeQuery(selectQuery);
@@ -70,6 +71,7 @@ public class Repository {
     }
 
     private boolean processSimpleQuery(final String query){
+        System.out.println(query);
         boolean execute =false;
         try (final Connection connection = ds.getConnection();
              final Statement statement = connection.createStatement()

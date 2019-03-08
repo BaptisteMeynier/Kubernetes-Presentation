@@ -29,7 +29,7 @@ public class PortfolioHealthCheck implements HealthCheck {
     @Override
     public HealthCheckResponse call() {
 
-        HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("membership");
+        HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("portfolio");
         try {
             Connection connection = datasource.getConnection();
             boolean isValid = connection.isValid(500);

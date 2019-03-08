@@ -11,11 +11,11 @@ public class PaginationParam {
 
     @Min(value = 1, message = "page start at " + FIRST_PAGE)
     @QueryParam(PAGE_QUERY_PARAM)
-    @DefaultValue("${FIRST_PAGE}")
+    @DefaultValue(FIRST_PAGE)
     public int page;
 
     @Max(value = 1, message = "per_page max is " + PER_PAGE_QUERY_PARAM)
     @QueryParam(PER_PAGE_QUERY_PARAM)
-    @DefaultValue("${DEFAULT_PER_PAGE}")
+    @DefaultValue(DEFAULT_PER_PAGE)
     public int per_page;
 }

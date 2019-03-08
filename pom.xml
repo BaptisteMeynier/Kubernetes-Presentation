@@ -51,6 +51,10 @@
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
+            <artifactId>jsonp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.thorntail</groupId>
             <artifactId>logging</artifactId>
         </dependency>
         <dependency>
@@ -94,7 +98,7 @@
                             <goal>package</goal>
                         </goals>
                         <configuration>
-                            <hollow>true</hollow>
+                            <!--hollow>true</hollow-->
 
                             <properties>
                                 <thorntail.debug.port>9999</thorntail.debug.port>

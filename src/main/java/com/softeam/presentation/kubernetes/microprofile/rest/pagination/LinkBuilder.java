@@ -6,9 +6,9 @@ import java.util.stream.Stream;
 
 import static com.softeam.presentation.kubernetes.microprofile.rest.pagination.PaginationConstants.*;
 
-public class LinkPagination {
+public class LinkBuilder {
 
-    private LinkPagination() {
+    private LinkBuilder() {
     }
 
     public static PageSizeStep uriInfo(UriInfo uriInfo) {

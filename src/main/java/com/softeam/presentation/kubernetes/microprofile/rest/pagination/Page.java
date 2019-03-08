@@ -1,20 +1,27 @@
 package com.softeam.presentation.kubernetes.microprofile.rest.pagination;
 
 
+import javax.xml.bind.annotation.*;
 import java.util.List;
 
-public class Paginated<T> {
+@XmlRootElement(name="page")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Page<T> {
 
     private List<T> entities;
+    @XmlElement(required=true)
     private int currentPage;
+    @XmlElement(required=true)
     private int perPage;
+    @XmlElement(required=true)
     private int pageCount;
+    @XmlElement(required=true)
     private int totalCount;
 
-    public Paginated() {
+    public Page() {
     }
 
-    public Paginated(List<T> entities, int currentPage, int perPage, int pageCount, int totalCount) {
+    public Page(List<T> entities, int currentPage, int perPage, int pageCount, int totalCount) {
         this.entities = entities;
         this.currentPage = currentPage;
         this.perPage = perPage;

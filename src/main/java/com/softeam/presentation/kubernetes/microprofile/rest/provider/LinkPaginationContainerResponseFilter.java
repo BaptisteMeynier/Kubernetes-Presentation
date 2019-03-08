@@ -1,16 +1,14 @@
 package com.softeam.presentation.kubernetes.microprofile.rest.provider;
 
-import com.softeam.presentation.kubernetes.microprofile.rest.pagination.LinkPagination;
-import com.softeam.presentation.kubernetes.microprofile.rest.pagination.Paginated;
+import com.softeam.presentation.kubernetes.microprofile.rest.pagination.LinkBuilder;
+import com.softeam.presentation.kubernetes.microprofile.rest.pagination.Page;
 
 import javax.ws.rs.container.ContainerResponseFilter;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.ext.Provider;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,15 +22,15 @@ public class LinkPaginationContainerResponseFilter implements ContainerResponseF
     @Override
     public void filter(ContainerRequestContext requestContext,
                        ContainerResponseContext responseContext) {
-        if (!(responseContext.getEntity() instanceof Paginated) ) {
+        if (!(responseContext.getEntity() instanceof Page) ) {
             return;
         }
 
         UriInfo uriInfo = requestContext.getUriInfo();
-        Paginated page = (Paginated) responseContext.getEntity();
+        Page page = (Page) responseContext.getEntity();
         responseContext.setEntity(page.getEntities());
 
-        Stream<Link> build = LinkPagination
+        Stream<Link> build = LinkBuilder
                 .uriInfo(uriInfo)
                 .pageSize(page.getPerPage())
                 .pageNumber(page.getCurrentPage())
