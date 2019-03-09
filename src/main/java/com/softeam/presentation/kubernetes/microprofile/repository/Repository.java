@@ -2,6 +2,7 @@ package com.softeam.presentation.kubernetes.microprofile.repository;
 
 
 import com.softeam.presentation.kubernetes.microprofile.model.Portfolio;
+import com.softeam.presentation.kubernetes.microprofile.model.PortfolioKey;
 import com.softeam.presentation.kubernetes.microprofile.model.enums.Devise;
 
 import javax.annotation.Resource;
@@ -12,17 +13,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 @Named
 public class Repository {
 
     private static final String COUNT_QUERY = "SELECT count(ID) FROM PORTFOLIO";
-    private static final String SELECT_QUERY = "SELECT ID,AMOUNT,DEVISE,MANAGER FROM PORTFOLIO ORDER BY id ASC LIMIT %d,%d";
-    private static final String INSERT_QUERY = "INSERT INTO PORTFOLIO (AMOUNT,DEVISE,MANAGER) VALUES ('%d', '%s', '%s')";
-    private static final String UPDATE_QUERY = "UPDATE PORTFOLIO SET AMOUNT=%d, DEVISE='%s' ,MANAGER='%s' WHERE ID=%d";
-    private static final String DELETE_QUERY = "DELETE FROM PORTFOLIO WHERE ID=%d";
+    private static final String SELECT_QUERY = "SELECT CODE,AMOUNT,DEVISE,MANAGER FROM PORTFOLIO ORDER BY id ASC LIMIT %d,%d";
+    private static final String INSERT_QUERY = "INSERT INTO PORTFOLIO (CODE,AMOUNT,DEVISE,MANAGER) VALUES ('%s','%d', '%s', '%s')";
+    private static final String UPDATE_QUERY = "UPDATE PORTFOLIO SET %s WHERE CODE='%s'";
+    private static final String DELETE_QUERY = "DELETE FROM PORTFOLIO WHERE CODE='%s'";
 
     @Resource(lookup = "java:jboss/datasources/PortfolioDS")
     private DataSource ds;
@@ -39,7 +42,7 @@ public class Repository {
             while (resultSet.next()) {
                 portfolios.add(
                         Portfolio.builder()
-                                .setId(resultSet.getLong("ID"))
+                                .setKey(new PortfolioKey(resultSet.getString("CODE")))
                                 .setAmount(resultSet.getInt("AMOUNT"))
                                 .setDevise(Devise.valueOf(resultSet.getString("DEVISE")))
                                 .setManager(resultSet.getString("MANAGER")));
@@ -52,35 +55,62 @@ public class Repository {
 
     public boolean insertPortfolio(final Portfolio portfolio) {
         Objects.requireNonNull(portfolio);
-        final String insertQuery = String.format(INSERT_QUERY, portfolio.getAmount(), portfolio.getDevise(), portfolio.getManager());
+        final String insertQuery = String.format(INSERT_QUERY, portfolio.getKey().getCode(),portfolio.getAmount(), portfolio.getDevise(), portfolio.getManager());
         return processSimpleQuery(insertQuery);
     }
 
     public boolean updatePortfolio(final Portfolio portfolio) {
         Objects.requireNonNull(portfolio);
-        Objects.requireNonNull(portfolio.getId());
-        final String update = String.format(UPDATE_QUERY, portfolio.getAmount(), portfolio.getDevise(), portfolio.getManager(),portfolio.getId());
-        return processSimpleQuery(update);
+        Objects.requireNonNull(portfolio.getKey());
+        boolean manage =false;
+        final String setStatement = computeSetStatement(portfolio);
+        if(!"".equals(setStatement)){
+            final String update = String.format(UPDATE_QUERY, setStatement,portfolio.getKey().getCode());
+            manage= processSimpleQuery(update);
+        }
+        return manage;
     }
 
 
-    public boolean deletePortfolio(final Long id) {
-        Objects.requireNonNull(id);
-        final String deleteQuery = String.format(DELETE_QUERY, id);
+    public boolean deletePortfolio(final PortfolioKey key) {
+        Objects.requireNonNull(key);
+        final String deleteQuery = String.format(DELETE_QUERY, key.getCode());
         return processSimpleQuery(deleteQuery);
+    }
+
+
+    private String computeSetStatement(final Portfolio portfolio){
+        final StringBuilder setFields= new StringBuilder();
+        if(Objects.nonNull(portfolio.getAmount())){
+            setFields.append("AMOUNT=").append(portfolio.getAmount()).equals(" ");
+        }
+        if(Objects.nonNull(portfolio.getDevise())){
+            if(setFields.length() > 0){
+                setFields.append(", ");
+            }
+            setFields.append("DEVISE='").append(portfolio.getDevise()).equals("' ");
+        }
+        if(Objects.nonNull(portfolio.getManager()) && !"".equals(portfolio.getManager())){
+            if(setFields.indexOf(",") < setFields.indexOf("=")){
+                setFields.append(", ");
+            }
+            setFields.append("MANAGER='").append(portfolio.getManager()).append("' ");
+        }
+        return setFields.toString();
     }
 
     private boolean processSimpleQuery(final String query){
         System.out.println(query);
-        boolean execute =false;
+        boolean success =false;
         try (final Connection connection = ds.getConnection();
              final Statement statement = connection.createStatement()
         ) {
-            execute = statement.execute(query);
+            statement.execute(query);
+            success = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return execute;
+        return success;
     }
 
 

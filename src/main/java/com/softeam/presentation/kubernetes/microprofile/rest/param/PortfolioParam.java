@@ -1,21 +1,33 @@
 package com.softeam.presentation.kubernetes.microprofile.rest.param;
 
 import com.softeam.presentation.kubernetes.microprofile.model.enums.Devise;
+import com.softeam.presentation.kubernetes.microprofile.rest.param.validation.UpdatePortfolio;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.ws.rs.FormParam;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.*;
 
-@XmlRootElement
+
 public class PortfolioParam {
-    @Positive
-    public int amount;
+
+    @NotEmpty(groups = UpdatePortfolio.class)
+    @Size(min=10,max=10,groups = UpdatePortfolio.class)
+    private String code;
+    @Positive()
+    private int amount;
     @NotNull
-    public Devise devise;
+    private Devise devise;
     @NotEmpty
-    public String manager;
+    private String manager;
+
+    public PortfolioParam() {
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public int getAmount() {
         return amount;

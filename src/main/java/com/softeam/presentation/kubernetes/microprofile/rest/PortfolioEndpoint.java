@@ -1,9 +1,11 @@
 package com.softeam.presentation.kubernetes.microprofile.rest;
 
 import com.softeam.presentation.kubernetes.microprofile.model.Portfolio;
+import com.softeam.presentation.kubernetes.microprofile.model.PortfolioKey;
 import com.softeam.presentation.kubernetes.microprofile.rest.pagination.Page;
 import com.softeam.presentation.kubernetes.microprofile.rest.param.PaginationParam;
 import com.softeam.presentation.kubernetes.microprofile.rest.param.PortfolioParam;
+import com.softeam.presentation.kubernetes.microprofile.rest.param.validation.UpdatePortfolio;
 import com.softeam.presentation.kubernetes.microprofile.service.PortfolioService;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Counted;
@@ -11,12 +13,18 @@ import org.eclipse.microprofile.metrics.annotation.Metered;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validator;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Path("portfolio")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,6 +42,9 @@ import java.util.List;
         unit = MetricUnits.MILLISECONDS,
         absolute = true)
 public class PortfolioEndpoint {
+
+    @Inject
+    private Validator validator;
 
     @Inject
     private PortfolioService portfolioService;
@@ -61,42 +72,38 @@ public class PortfolioEndpoint {
 
     @POST
     public void doPost(
-            @Valid @BeanParam PortfolioParam portfolioParam,
+            @Valid PortfolioParam portfolioParam,
             @Suspended AsyncResponse asyncResponse
     ) {
-        System.out.println(portfolioParam.amount);
-        System.out.println(portfolioParam.devise);
-        System.out.println(portfolioParam.manager);
         final Portfolio portfolio =
                 Portfolio.builder()
-                        .setAmount(portfolioParam.amount)
-                        .setDevise(portfolioParam.devise)
-                        .setManager(portfolioParam.manager);
+                        .setKey(new PortfolioKey(portfolioParam.getCode()))
+                        .setAmount(portfolioParam.getAmount())
+                        .setDevise(portfolioParam.getDevise())
+                        .setManager(portfolioParam.getManager());
         asyncResponse.resume(portfolioService.insertPortfolio(portfolio));
     }
 
     @PUT
-    @Path("{id}")
     public void doPut(
-            @PathParam("id") Long id,
-            @BeanParam PortfolioParam portfolioParam,
+            @Valid @ConvertGroup(from = Default.class, to = UpdatePortfolio.class) PortfolioParam portfolioParam,
             @Suspended AsyncResponse asyncResponse
     ) {
         final Portfolio portfolio =
                 Portfolio.builder()
-                        .setId(id)
-                        .setAmount(portfolioParam.amount)
-                        .setDevise(portfolioParam.devise)
-                        .setManager(portfolioParam.manager);
+                        .setKey(new PortfolioKey(portfolioParam.getCode()))
+                        .setAmount(portfolioParam.getAmount())
+                        .setDevise(portfolioParam.getDevise())
+                        .setManager(portfolioParam.getManager());
         asyncResponse.resume(portfolioService.updatePortfolio(portfolio));
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("{key}")
     public void doDelete(
-            @PathParam("id") Long id,
+            @PathParam("key") String key,
             @Suspended AsyncResponse asyncResponse
     ) {
-        asyncResponse.resume(portfolioService.deletePortfolio(id));
+        asyncResponse.resume(portfolioService.deletePortfolio(new PortfolioKey(key)));
     }
 }
