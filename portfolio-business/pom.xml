@@ -89,6 +89,7 @@
     </dependencies>
 
     <build>
+        <finalName>portfolio</finalName>
         <plugins>
             <plugin>
                 <groupId>io.thorntail</groupId>
@@ -101,8 +102,7 @@
                             <goal>package</goal>
                         </goals>
                         <configuration>
-                            <!--hollow>true</hollow-->
-
+                            <hollow>true</hollow>
                             <properties>
                                 <thorntail.debug.port>9999</thorntail.debug.port>
                             </properties>
