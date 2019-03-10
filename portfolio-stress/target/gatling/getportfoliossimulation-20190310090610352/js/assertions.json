@@ -1,0 +1,10 @@
+{
+  "simulation": "portfolio.GetPortfoliosSimulation",
+  "simulationId": "getportfoliossimulation",
+  "start": 1552208770352,
+  "description": "",
+  "scenarios": ["Get portfolios"],
+  "assertions": [
+
+  ]
+}
