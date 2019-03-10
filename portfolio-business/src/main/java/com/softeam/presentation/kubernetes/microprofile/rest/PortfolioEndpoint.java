@@ -13,7 +13,6 @@ import org.eclipse.microprofile.metrics.annotation.Metered;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.inject.Inject;
-import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.validation.groups.ConvertGroup;
@@ -22,9 +21,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.Optional;
 
 @Path("portfolio")
 @Produces(MediaType.APPLICATION_JSON)
@@ -56,7 +55,7 @@ public class PortfolioEndpoint {
     ) {
         int offset = queryParams.per_page * (queryParams.page - 1);
 
-        final List<Portfolio> portfolios = portfolioService.getPortfolio(offset, queryParams.per_page);
+        final List<Portfolio> portfolios = portfolioService.getPortfolios(offset, queryParams.per_page);
         int total = portfolioService.countPortfolio();
 
         final Page<Portfolio> paginated =
@@ -68,6 +67,17 @@ public class PortfolioEndpoint {
                         total);
 
         asyncResponse.resume(paginated);
+    }
+
+    @GET
+    @Path("{key}")
+    public Response doGet(@PathParam("key") String key) {
+        Response res = Response.status(Response.Status.NOT_FOUND).build();
+        final Optional<Portfolio> portfolio = portfolioService.getPortfolio(new PortfolioKey(key));
+        if(portfolio.isPresent()){
+            res = Response.ok(portfolio.get()).build();
+        }
+        return res;
     }
 
     @POST

@@ -7,6 +7,7 @@ import com.softeam.presentation.kubernetes.microprofile.repository.Repository;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
+import java.util.Optional;
 
 @Named
 public class PortfolioService {
@@ -14,8 +15,11 @@ public class PortfolioService {
     @Inject
     private Repository repository;
 
-    public List<Portfolio> getPortfolio(int offset, int totalReturnedValue ){
-        return repository.getPortfolio(offset,totalReturnedValue);
+    public List<Portfolio> getPortfolios(int offset, int totalReturnedValue ){
+        return repository.getPortfolios(offset,totalReturnedValue);
+    }
+    public Optional<Portfolio> getPortfolio(final PortfolioKey key){
+        return repository.getPortfolio(key);
     }
     public boolean insertPortfolio(final Portfolio portfolio){
         return repository.insertPortfolio(portfolio);

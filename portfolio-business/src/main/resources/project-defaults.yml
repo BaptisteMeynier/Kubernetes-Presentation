@@ -18,7 +18,7 @@ thorntail:
     periodic-rotating-file-handlers:
       FILE:
         file:
-          path: target/MY_APP_NAME.log
+          path: target/portfolio.log
         suffix: .yyyy-MM-dd
         named-formatter: LOG_FORMATTER
     root-logger:

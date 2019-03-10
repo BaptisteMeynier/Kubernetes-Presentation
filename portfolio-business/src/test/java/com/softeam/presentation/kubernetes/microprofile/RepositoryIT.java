@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
 //@DefaultDeployment(type = DefaultDeployment.Type.WAR)
-public class RepositoryTest {
+public class RepositoryIT {
 
     @ArquillianResource
     InitialContext context;
@@ -48,7 +48,7 @@ public class RepositoryTest {
 
     @Test
     public void shouldGetPaginatedResult() throws Exception {
-        List<Portfolio> portfolio = repository.getPortfolio(0, 2);
+        List<Portfolio> portfolio = repository.getPortfolios(0, 2);
         Assert.assertEquals(2,portfolio.size());
     }
 }
