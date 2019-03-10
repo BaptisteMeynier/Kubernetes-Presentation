@@ -6,7 +6,7 @@ mvn clean package -DskipTests
 
 ___________________
 ####Launch:
-java -jar target/microprofile-1.0-SNAPSHOT-thorntail.jar
+java -jar portfolio-business/target/portfolio-hollow-thorntail.jar portfolio-business/target/portfolio.war -s portfolio-business/src/main/filters/project-defaults.yml
 ____________________
 ####url:  
 http://localhost:8080/api/v1/portfolio?page=10&per_page=2
