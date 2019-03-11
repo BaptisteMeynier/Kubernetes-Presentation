@@ -10,6 +10,8 @@
     <modules>
         <module>portfolio-stress</module>
         <module>portfolio-business</module>
+        <module>portfolio-persistence</module>
+        <module>portfolio-webservice</module>
     </modules>
     <packaging>pom</packaging>
 
