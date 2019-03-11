@@ -24,6 +24,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Path("portfolio")
 @Produces(MediaType.APPLICATION_JSON)
@@ -40,6 +42,7 @@ import java.util.Optional;
         description = "Metrics to monitor the times of get portfolio.",
         unit = MetricUnits.MILLISECONDS,
         absolute = true)
+@Api(value = "/portfolio", description = "Portfolio", tags = "portfolio")
 public class PortfolioEndpoint {
 
     @Inject
@@ -49,6 +52,7 @@ public class PortfolioEndpoint {
     private PortfolioService portfolioService;
 
     @GET
+    @ApiOperation(value = "Get portfolios", notes = "Pagination system is provided", response = Portfolio[].class)
     public void doGet(
             @BeanParam PaginationParam queryParams,
             @Suspended AsyncResponse asyncResponse
@@ -70,6 +74,7 @@ public class PortfolioEndpoint {
     }
 
     @GET
+    @ApiOperation(value = "Get portfolio by key", response = Portfolio.class)
     @Path("{key}")
     public Response doGet(@PathParam("key") String key) {
         Response res = Response.status(Response.Status.NOT_FOUND).build();
@@ -81,6 +86,7 @@ public class PortfolioEndpoint {
     }
 
     @POST
+    @ApiOperation(value = "Create a portfolio", response = Boolean.class)
     public void doPost(
             @Valid PortfolioParam portfolioParam,
             @Suspended AsyncResponse asyncResponse
@@ -95,6 +101,7 @@ public class PortfolioEndpoint {
     }
 
     @PUT
+    @ApiOperation(value = "Change attribute for a specific portfolio", response = Boolean.class)
     public void doPut(
             @Valid @ConvertGroup(from = Default.class, to = UpdatePortfolio.class) PortfolioParam portfolioParam,
             @Suspended AsyncResponse asyncResponse
@@ -109,6 +116,7 @@ public class PortfolioEndpoint {
     }
 
     @DELETE
+    @ApiOperation(value = "Delete a portfolio", response = Boolean.class)
     @Path("{key}")
     public void doDelete(
             @PathParam("key") String key,

@@ -9,12 +9,21 @@ mvn clean package
 java -jar portfolio-business/target/portfolio-hollow-thorntail.jar portfolio-business/target/portfolio.war -s portfolio-business/src/main/filters/project-defaults.yml
 
 ####Url:  
-######Portfolio:
+
+#####Health:
+http://localhost:8080/health
+
+#####Metric:
+http://localhost:8080/metrics
+
+#####Portfolio:
 http://localhost:8080/api/v1/portfolio  
 http://localhost:8080/api/v1/portfolio?page=10&per_page=2  
+######Swagger:
+http://localhost:8080/  
+http://localhost:8080/api/v1/swagger.json
 
-######Health:
-http://localhost:8080/health
+
 
 
 

@@ -25,6 +25,11 @@ thorntail:
       handlers:
       - CONSOLE
       - FILE
+  deployment:
+    portfolio:
+      swagger:
+        packages:
+          - com.softeam.presentation.kubernetes.microprofile.rest
 
 health:
   datasource:
