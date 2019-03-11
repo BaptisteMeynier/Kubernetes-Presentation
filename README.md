@@ -1,20 +1,27 @@
 # Kubernetes Presentation
 
-____________________
-####compile: 
-mvn clean package -DskipTests
+##Microprofile
 
-___________________
+####Compile: 
+mvn clean package
+
 ####Launch:
 java -jar portfolio-business/target/portfolio-hollow-thorntail.jar portfolio-business/target/portfolio.war -s portfolio-business/src/main/filters/project-defaults.yml
-____________________
-####url:  
-http://localhost:8080/api/v1/portfolio?page=10&per_page=2
 
+####Url:  
+######Portfolio:
+http://localhost:8080/api/v1/portfolio  
+http://localhost:8080/api/v1/portfolio?page=10&per_page=2  
+
+######Health:
 http://localhost:8080/health
 
-https://github.com/gatling/gatling-maven-plugin-demo
 
+
+_____________________________________________
+##Gatling
+
+mvn gatling:test -Dgatling.simulationClass=portfolio.GetPortfoliosSimulation
 
 _____________________________________
 ## Docker
@@ -40,4 +47,27 @@ CONTAINER ID        IMAGE                       COMMAND                  CREATED
 1c741289faab        microprofile/portfolio:v1   "java -jar /opt/ho..."   2 minutes ago       Up 2 minutes        0.0.0.0:8080->8080/tcp   inspiring_kirch
 
 [baptiste@localhost Kubernetes-Presentation]$ docker exec -it 1c741289faab /bin/sh
+
+_______________________________________________
+##Kubernetes
+
+####MiniKube installation: 
+
+####Console installation:
+????
+
+####Generate access token: 
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+
+####Create deployment:
+kubectl apply -f portfolio-deployment.yml  
+
+####Expose deployment:
+kubectl expose deployment  portfolio-deployment --type=NodePort --name=portfolio-service
+
+####Create proxy:
+kubectl proxy --port=8080 --accept-hosts="^*$"
+
+####Url expose:
+http://localhost:8080/api/v1/namespaces/default/services/portfolio-service/proxy/api/v1/portfolio
 
