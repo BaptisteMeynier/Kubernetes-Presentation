@@ -1,4 +1,4 @@
-package com.softeam.presentation.kubernetest.portfolio.webservice.provider;
+package com.softeam.presentation.kubernetest.portfolio.app.provider;
 
 import com.softeam.presentation.kubernetes.portfolio.business.repository.RepositoryPort;
 import com.softeam.presentation.kubernetes.portfolio.business.service.PortfolioService;

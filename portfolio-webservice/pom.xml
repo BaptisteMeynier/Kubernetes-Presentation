@@ -10,61 +10,65 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>portfolio-webservice</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
         <!-- FRACTIONS -->
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>bean-validation</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>datasources</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>cdi</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>jaxrs</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>jsonp</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>logging</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>microprofile-metrics</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>microprofile-health</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>swagger</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!--dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>microprofile-opentracing</artifactId>
         </dependency-->
-
         <dependency>
             <groupId>com.softeam.presentation.kubernetest</groupId>
             <version>${project.version}</version>
             <artifactId>portfolio-business</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.softeam.presentation.kubernetest</groupId>
-            <version>${project.version}</version>
-            <artifactId>portfolio-persistence</artifactId>
-        </dependency>
+
         <!-- TEST -->
         <dependency>
             <groupId>io.thorntail</groupId>
