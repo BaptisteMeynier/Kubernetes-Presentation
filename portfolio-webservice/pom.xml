@@ -10,49 +10,45 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>portfolio-webservice</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <dependencies>
         <!-- FRACTIONS -->
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>bean-validation</artifactId>
-            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>datasources</artifactId>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>cdi</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>jaxrs</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>jsonp</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>logging</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>microprofile-metrics</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>microprofile-health</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>swagger</artifactId>
-            <scope>provided</scope>
         </dependency>
         <!--dependency>
             <groupId>io.thorntail</groupId>
@@ -63,6 +59,11 @@
             <groupId>com.softeam.presentation.kubernetest</groupId>
             <version>${project.version}</version>
             <artifactId>portfolio-business</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.softeam.presentation.kubernetest</groupId>
+            <version>${project.version}</version>
+            <artifactId>portfolio-persistence</artifactId>
         </dependency>
         <!-- TEST -->
         <dependency>
@@ -75,6 +76,7 @@
 
 
     <build>
+        <finalName>portfolio-webservice</finalName>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->

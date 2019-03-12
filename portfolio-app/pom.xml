@@ -8,7 +8,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>portfolio-app</artifactId>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
 
     <properties>
         <scala.version>2.12.8</scala.version>
@@ -81,7 +81,7 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
+        <!--dependency>
             <artifactId>portfolio-persistence</artifactId>
             <version>${project.version}</version>
             <groupId>com.softeam.presentation.kubernetest</groupId>
@@ -90,7 +90,7 @@
             <artifactId>portfolio-webservice</artifactId>
             <version>${project.version}</version>
             <groupId>com.softeam.presentation.kubernetest</groupId>
-        </dependency>
+        </dependency-->
 
         <!-- TEST -->
         <dependency>

@@ -29,10 +29,5 @@ thorntail:
     portfolio:
       swagger:
         packages:
-          - com.softeam.presentation.kubernetes.microprofile.rest
+          - com.softeam.presentation.kubernetes.portfolio.webservice.rest
 
-health:
-  datasource:
-    max: 200
-pagination:
-  default_per_page: 5
