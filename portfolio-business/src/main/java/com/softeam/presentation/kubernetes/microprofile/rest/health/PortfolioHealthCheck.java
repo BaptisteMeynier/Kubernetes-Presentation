@@ -30,8 +30,9 @@ public class PortfolioHealthCheck implements HealthCheck {
     public HealthCheckResponse call() {
 
         HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("portfolio");
-        try {
-            Connection connection = datasource.getConnection();
+
+        try (final Connection connection = datasource.getConnection()){
+
             boolean isValid = connection.isValid(500);
 
             DatabaseMetaData metaData = connection.getMetaData();
