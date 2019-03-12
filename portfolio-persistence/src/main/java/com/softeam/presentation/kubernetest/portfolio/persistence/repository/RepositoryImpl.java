@@ -32,7 +32,7 @@ public class RepositoryImpl implements PortfolioRepository {
 
     public Optional<Portfolio> getPortfolio(final PortfolioKey key) {
 
-        Optional<Portfolio> portfolio =Optional.empty();
+        Optional<Portfolio> portfolio =Optinal.empty();
         final String selectQuery = String.format(SELECT_PORTFOLIO_QUERY, key.getCode());
         final List<Portfolio> portfolios = getPortfolios(selectQuery);
         if(!portfolios.isEmpty()){
