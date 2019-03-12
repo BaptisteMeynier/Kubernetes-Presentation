@@ -7,22 +7,56 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>portfolio-stress</artifactId>
+    <artifactId>portfolio-app</artifactId>
+    <packaging>war</packaging>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <scala.version>2.12.8</scala.version>
-        <encoding>UTF-8</encoding>
-
         <gatling.version>3.0.3</gatling.version>
-
         <scala-maven-plugin.version>3.3.1</scala-maven-plugin.version>
         <gatling-maven-plugin.version>3.0.1</gatling-maven-plugin.version>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>io.thorntail</groupId>
+                <artifactId>datasources</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>io.thorntail</groupId>
+                <artifactId>cdi</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>io.thorntail</groupId>
+                <artifactId>bean-validation</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>io.thorntail</groupId>
+                <artifactId>jaxrs</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>io.thorntail</groupId>
+                <artifactId>jsonp</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>io.thorntail</groupId>
+                <artifactId>logging</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>io.thorntail</groupId>
+                <artifactId>microprofile-metrics</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>io.thorntail</groupId>
+                <artifactId>microprofile-health</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>io.thorntail</groupId>
+                <artifactId>swagger</artifactId>
+            </dependency>
+            <!-- TEST -->
             <dependency>
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-app</artifactId>
@@ -48,24 +82,41 @@
 
     <dependencies>
         <dependency>
+            <artifactId>portfolio-persistence</artifactId>
+            <version>${project.version}</version>
+            <groupId>com.softeam.presentation.kubernetest</groupId>
+        </dependency>
+        <dependency>
+            <artifactId>portfolio-webservice</artifactId>
+            <version>${project.version}</version>
+            <groupId>com.softeam.presentation.kubernetest</groupId>
+        </dependency>
+
+        <!-- TEST -->
+        <dependency>
             <groupId>io.gatling.highcharts</groupId>
             <artifactId>gatling-charts-highcharts</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.gatling</groupId>
             <artifactId>gatling-app</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.gatling</groupId>
             <artifactId>gatling-recorder</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
+        <finalName>portfolio-app</finalName>
         <testSourceDirectory>src/test/scala</testSourceDirectory>
         <pluginManagement>
             <plugins>

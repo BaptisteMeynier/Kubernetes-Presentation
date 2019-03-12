@@ -2,6 +2,8 @@ package com.softeam.presentation.kubernetest.portfolio.webservice.rest;
 
 import com.softeam.presentation.kubernetes.portfolio.business.model.Portfolio;
 import com.softeam.presentation.kubernetes.portfolio.business.model.PortfolioKey;
+import com.softeam.presentation.kubernetes.portfolio.business.service.PortfolioServicePort;
+import com.softeam.presentation.kubernetest.portfolio.webservice.adapter.PortfolioServiceAdapter;
 import com.softeam.presentation.kubernetest.portfolio.webservice.rest.pagination.Page;
 import com.softeam.presentation.kubernetest.portfolio.webservice.rest.param.PaginationParam;
 import com.softeam.presentation.kubernetest.portfolio.webservice.rest.param.PortfolioParam;
@@ -46,10 +48,7 @@ import io.swagger.annotations.ApiOperation;
 public class PortfolioEndpoint {
 
     @Inject
-    private Validator validator;
-
-    @Inject
-    private PortfolioService portfolioService;
+    private PortfolioServiceAdapter portfolioServiceAdapter;
 
     @GET
     @ApiOperation(value = "Get portfolios", notes = "Pagination system is provided", response = Portfolio[].class)
@@ -59,8 +58,8 @@ public class PortfolioEndpoint {
     ) {
         int offset = queryParams.per_page * (queryParams.page - 1);
 
-        final List<Portfolio> portfolios = portfolioService.getPortfolios(offset, queryParams.per_page);
-        int total = portfolioService.countPortfolio();
+        final List<Portfolio> portfolios = portfolioServiceAdapter.getPortfolios(offset, queryParams.per_page);
+        int total = portfolioServiceAdapter.countPortfolio();
 
         final Page<Portfolio> paginated =
                 new Page<>(
@@ -78,7 +77,7 @@ public class PortfolioEndpoint {
     @Path("{key}")
     public Response doGet(@PathParam("key") String key) {
         Response res = Response.status(Response.Status.NOT_FOUND).build();
-        final Optional<Portfolio> portfolio = portfolioService.getPortfolio(new PortfolioKey(key));
+        final Optional<Portfolio> portfolio = portfolioServiceAdapter.getPortfolio(new PortfolioKey(key));
         if(portfolio.isPresent()){
             res = Response.ok(portfolio.get()).build();
         }
@@ -97,13 +96,13 @@ public class PortfolioEndpoint {
                         .setAmount(portfolioParam.getAmount())
                         .setDevise(portfolioParam.getDevise())
                         .setManager(portfolioParam.getManager());
-        asyncResponse.resume(portfolioService.insertPortfolio(portfolio));
+        asyncResponse.resume(portfolioServiceAdapter.insertPortfolio(portfolio));
     }
 
     @PUT
     @ApiOperation(value = "Change attribute for a specific portfolio", response = Boolean.class)
     public void doPut(
-            @Valid @ConvertGroup(from = Default.class, to = UpdatePortfolio.class) PortfolioParam portfolioParam,
+            @Valid @ConvertGroup(to = UpdatePortfolio.class) PortfolioParam portfolioParam,
             @Suspended AsyncResponse asyncResponse
     ) {
         final Portfolio portfolio =
@@ -112,7 +111,7 @@ public class PortfolioEndpoint {
                         .setAmount(portfolioParam.getAmount())
                         .setDevise(portfolioParam.getDevise())
                         .setManager(portfolioParam.getManager());
-        asyncResponse.resume(portfolioService.updatePortfolio(portfolio));
+        asyncResponse.resume(portfolioServiceAdapter.updatePortfolio(portfolio));
     }
 
     @DELETE
@@ -122,6 +121,6 @@ public class PortfolioEndpoint {
             @PathParam("key") String key,
             @Suspended AsyncResponse asyncResponse
     ) {
-        asyncResponse.resume(portfolioService.deletePortfolio(new PortfolioKey(key)));
+        asyncResponse.resume(portfolioServiceAdapter.deletePortfolio(new PortfolioKey(key)));
     }
 }

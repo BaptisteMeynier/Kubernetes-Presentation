@@ -2,18 +2,18 @@ package com.softeam.presentation.kubernetes.portfolio.business.service;
 
 import com.softeam.presentation.kubernetes.portfolio.business.model.Portfolio;
 import com.softeam.presentation.kubernetes.portfolio.business.model.PortfolioKey;
-import com.softeam.presentation.kubernetes.portfolio.business.repository.PortfolioRepository;
+import com.softeam.presentation.kubernetes.portfolio.business.repository.RepositoryPort;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.List;
 import java.util.Optional;
 
-@Named
-public class PortfolioService {
+public class PortfolioService implements PortfolioServicePort {
 
-    @Inject
-    private PortfolioRepository repository;
+    private RepositoryPort repository;
+
+    public PortfolioService(RepositoryPort repository) {
+        this.repository = repository;
+    }
 
     public List<Portfolio> getPortfolios(int offset, int totalReturnedValue ){
         return repository.getPortfolios(offset,totalReturnedValue);

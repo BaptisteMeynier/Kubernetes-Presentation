@@ -4,6 +4,7 @@ package com.softeam.presentation.kubernetest.portfolio.persistence.repository;
 import com.softeam.presentation.kubernetes.portfolio.business.model.Portfolio;
 import com.softeam.presentation.kubernetes.portfolio.business.model.PortfolioKey;
 import com.softeam.presentation.kubernetes.portfolio.business.model.enums.Devise;
+import com.softeam.presentation.kubernetes.portfolio.business.repository.RepositoryPort;
 
 import javax.annotation.Resource;
 import javax.inject.Named;
@@ -18,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Named
-public class RepositoryImpl implements PortfolioRepository {
+public class SqlRepositoryAdapter implements RepositoryPort {
 
     private static final String COUNT_QUERY = "SELECT count(ID) FROM PORTFOLIO";
     private static final String SELECT_PORTFOLIO_QUERY = "SELECT CODE,AMOUNT,DEVISE,MANAGER FROM PORTFOLIO WHERE CODE ='%s'";
@@ -32,7 +33,7 @@ public class RepositoryImpl implements PortfolioRepository {
 
     public Optional<Portfolio> getPortfolio(final PortfolioKey key) {
 
-        Optional<Portfolio> portfolio =Optinal.empty();
+        Optional<Portfolio> portfolio =Optional.empty();
         final String selectQuery = String.format(SELECT_PORTFOLIO_QUERY, key.getCode());
         final List<Portfolio> portfolios = getPortfolios(selectQuery);
         if(!portfolios.isEmpty()){
@@ -43,7 +44,6 @@ public class RepositoryImpl implements PortfolioRepository {
 
 
     public List<Portfolio> getPortfolios(int offset, int totalReturnedValue) {
-        final List<Portfolio> portfolios = new ArrayList<>();
         final String selectQuery = String.format(SELECT_PORTFOLIOS_QUERY, offset, totalReturnedValue);
         return getPortfolios(selectQuery);
     }

@@ -1,12 +1,10 @@
 package com.softeam.presentation.kubernetest.portfolio.persistence.utils;
 
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
-import javax.inject.Singleton;
 import javax.sql.DataSource;
 import java.io.BufferedReader;
 import java.io.IOException;
