@@ -80,3 +80,5 @@ kubectl proxy --port=8080 --accept-hosts="^*$"
 ####Url expose:
 http://localhost:8080/api/v1/namespaces/default/services/portfolio-service/proxy/api/v1/portfolio
 
+
+git clean -d -x -f
