@@ -1,6 +1,5 @@
-FROM openjdk:jre-alpine
+FROM hollow_microprofile:1.0.0
 
-ADD portfolio-business/target/portfolio-hollow-thorntail.jar /opt/hollow-thorntail.jar
 ADD portfolio-business/target/portfolio.war /opt/portfolio.war
 ADD portfolio-business/src/main/filters/project-defaults.yml /opt/project-defaults.yml
 
