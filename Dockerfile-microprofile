@@ -1,0 +1,3 @@
+FROM openjdk:jre-alpine
+
+ADD portfolio-business/target/portfolio-hollow-thorntail.jar /opt/hollow-thorntail.jar

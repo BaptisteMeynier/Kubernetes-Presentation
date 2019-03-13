@@ -48,7 +48,7 @@ docker.io/openjdk              jre-alpine          ccfb0c83b2fe        8 months 
 
 
 ### Launch container
-[baptiste@localhost Kubernetes-Presentation]$ docker run -p 8080:8080 -it microprofile/portfolio:v1
+[baptiste@localhost Kubernetes-Presentation]$ docker run -p 8080:8080 -d -it microprofile/portfolio:v1
 
 ### Connect to container
 [baptiste@localhost Kubernetes-Presentation]$ docker ps
