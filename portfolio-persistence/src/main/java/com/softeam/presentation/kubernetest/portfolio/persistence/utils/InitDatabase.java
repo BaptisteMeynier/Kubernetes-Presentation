@@ -39,7 +39,7 @@ public class InitDatabase {
             try (final Connection connection = ds.getConnection();
                  final Statement statement = connection.createStatement()
             ) {
-                System.out.println(sql);
+             //   System.out.println(sql);
                 statement.execute(sql);
             } catch (SQLException e) {
                 e.printStackTrace();

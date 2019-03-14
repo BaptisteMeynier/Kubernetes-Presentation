@@ -5,4 +5,4 @@ ADD portfolio-app/src/main/filters/project-defaults.yml /opt/project-defaults.ym
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/opt/hollow-thorntail.jar", "-Djava.net.preferIPv4Stack=true", "/opt/portfolio-app.war", "-s", "/opt/project-defaults.yml"]
+ENTRYPOINT ["java", "-Xmx64m", "-jar", "/opt/hollow-thorntail.jar", "-Djava.net.preferIPv4Stack=true", "/opt/portfolio-app.war", "-s", "/opt/project-defaults.yml"]

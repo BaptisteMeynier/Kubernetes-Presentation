@@ -1,32 +1,32 @@
 # Kubernetes Presentation
 
-##Microprofile
+## Microprofile
 
-####Compile: 
+#### Compile: 
 mvn clean install
 
-####Launch:
+#### Launch:
 java -jar portfolio-app/target/portfolio-app-hollow-thorntail.jar portfolio-app/target/portfolio-app.war -s portfolio-app/src/main/filters/project-defaults.yml
 
-####Url:  
+#### Url:  
 
-#####Portfolio:
+##### Portfolio:
 http://localhost:8080/api/v1/portfolio
 http://localhost:8080/api/v1/portfolio?page=10&per_page=2
 
-#####Health:
+##### Health:
 http://localhost:8080/health
 
-#####Metric:
+##### Metric:
 http://localhost:8080/metrics
 
-######Swagger:
+###### Swagger:
 http://localhost:8080/  
 http://localhost:8080/api/v1/swagger.json
 
 
 _____________________________________________
-##Gatling
+## Gatling
 
 mvn gatling:test -Dgatling.simulationClass=portfolio.GetPortfoliosSimulation
 
@@ -60,26 +60,26 @@ a065a091c37f        microprofile/application:1.0.0   "java -jar /opt/ho..."   13
 [baptiste@localhost Kubernetes-Presentation]$ docker exec -it 1c741289faab /bin/sh
 
 _______________________________________________
-##Kubernetes
+## Kubernetes
 
-####MiniKube installation: 
+#### MiniKube installation: 
 
-####Console installation:
+#### Console installation:
 ????
 
-####Generate access token: 
+#### Generate access token: 
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
 
-####Create deployment:
+#### Create deployment:
 kubectl apply -f portfolio-deployment.yml  
 
-####Expose deployment:
+#### Expose deployment:
 kubectl expose deployment  portfolio-deployment --type=NodePort --name=portfolio-service
 
-####Create proxy:
+#### Create proxy:
 kubectl proxy --port=8080 --accept-hosts="^*$"
 
-####Url expose:
+#### Url expose:
 http://localhost:8080/api/v1/namespaces/default/services/portfolio-service/proxy/api/v1/portfolio
 
 
