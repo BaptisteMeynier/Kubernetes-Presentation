@@ -2,10 +2,9 @@ package portfolio
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-
 import scala.concurrent.duration._
 
-class GetPortfoliosSimulation extends Simulation {
+class SmoothieGetPortfoliosSimulation extends Simulation {
 
   val httpProtocol = http
     .baseUrl("http://localhost:8080/api/v1/portfolio") // Here is the root for all relative URLs
@@ -18,5 +17,5 @@ class GetPortfoliosSimulation extends Simulation {
     .exec(http("Get all portfolios")
     .get("?page=1&per_page=5000"))
 
-  setUp(scn.inject(atOnceUsers(500)).protocols(httpProtocol))
+  setUp(scn.inject(rampUsers(5000) during (5 minutes)).protocols(httpProtocol))
 }
