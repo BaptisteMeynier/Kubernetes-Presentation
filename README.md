@@ -1,82 +1,87 @@
 # Kubernetes Presentation
 
-##Microprofile
+## Microprofile
 
-####Compile: 
-mvn clean package
+#### Compile: 
+mvn clean install
 
-####Launch:
-java -jar portfolio-business/target/portfolio-hollow-thorntail.jar portfolio-business/target/portfolio.war -s portfolio-business/src/main/filters/project-defaults.yml
+#### Launch:
+java -jar portfolio-app/target/portfolio-app-hollow-thorntail.jar portfolio-app/target/portfolio-app.war -s portfolio-app/src/main/filters/project-defaults.yml
 
-####Url:  
+#### Url:  
 
-#####Health:
+##### Portfolio:
+http://localhost:8080/api/v1/portfolio
+http://localhost:8080/api/v1/portfolio?page=10&per_page=2
+
+##### Health:
 http://localhost:8080/health
 
-#####Metric:
+##### Metric:
 http://localhost:8080/metrics
 
-#####Portfolio:
-http://localhost:8080/api/v1/portfolio  
-http://localhost:8080/api/v1/portfolio?page=10&per_page=2  
-######Swagger:
+###### Swagger:
 http://localhost:8080/  
 http://localhost:8080/api/v1/swagger.json
 
 
-
-
-
 _____________________________________________
-##Gatling
+## Gatling
 
 mvn gatling:test -Dgatling.simulationClass=portfolio.GetPortfoliosSimulation
 
 _____________________________________
 ## Docker
 
+### Download a wildfly image
+docker pull jboss/wildfly
+
 ### Build image
-docker build -t microprofile/portfolio:v1 .
+docker build -t microprofile/server:1.0.0 -f Dockerfile-server .
+
+docker build -t microprofile/application:1.0.0 -f Dockerfile-application .
 
 [baptiste@localhost Kubernetes-Presentation]$ docker images
 REPOSITORY                     TAG                 IMAGE ID            CREATED             SIZE
-microprofile/portfolio         v1                  025525503819        2 minutes ago       214 MB
-docker.io/jboss/wildfly        latest              09689dda7ad5        2 months ago        675 MB
-docker.io/payara/server-full   latest              f5982f444a3d        3 months ago        973 MB
-docker.io/jenkins              latest              cd14cecfdb3a        7 months ago        696 MB
-docker.io/openjdk              jre-alpine          ccfb0c83b2fe        8 months ago        83 MB
+microprofile/application       1.0.0               c0762d70523d        4 seconds ago       219 MB
+microprofile/server            1.0.0               1849f78ba969        9 minutes ago       213 MB
+docker.io/jboss/wildfly        latest              5de2811bb236        12 days ago         745 MB
 
 
 ### Launch container
-[baptiste@localhost Kubernetes-Presentation]$ docker run -p 8080:8080 -d -it microprofile/portfolio:v1
+[baptiste@localhost Kubernetes-Presentation]$ docker run -p 8080:8080 -d -it microprofile/application:1.0.0
+
 
 ### Connect to container
 [baptiste@localhost Kubernetes-Presentation]$ docker ps
-CONTAINER ID        IMAGE                       COMMAND                  CREATED             STATUS              PORTS                    NAMES
-1c741289faab        microprofile/portfolio:v1   "java -jar /opt/ho..."   2 minutes ago       Up 2 minutes        0.0.0.0:8080->8080/tcp   inspiring_kirch
+CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS                    NAMES
+a065a091c37f        microprofile/application:1.0.0   "java -jar /opt/ho..."   13 seconds ago      Up 13 seconds       0.0.0.0:8080->8080/tcp   mystifying_golick
+
 
 [baptiste@localhost Kubernetes-Presentation]$ docker exec -it 1c741289faab /bin/sh
 
 _______________________________________________
-##Kubernetes
+## Kubernetes
 
-####MiniKube installation: 
+#### MiniKube installation: 
 
-####Console installation:
+#### Console installation:
 ????
 
-####Generate access token: 
+#### Generate access token: 
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
 
-####Create deployment:
+#### Create deployment:
 kubectl apply -f portfolio-deployment.yml  
 
-####Expose deployment:
+#### Expose deployment:
 kubectl expose deployment  portfolio-deployment --type=NodePort --name=portfolio-service
 
-####Create proxy:
+#### Create proxy:
 kubectl proxy --port=8080 --accept-hosts="^*$"
 
-####Url expose:
+#### Url expose:
 http://localhost:8080/api/v1/namespaces/default/services/portfolio-service/proxy/api/v1/portfolio
 
+
+git clean -d -x -f

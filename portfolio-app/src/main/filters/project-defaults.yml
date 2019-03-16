@@ -1,0 +1,33 @@
+thorntail:
+  datasources:
+    data-sources:
+      PortfolioDS:
+        driver-name: portfolioH2
+        connection-url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        user-name: sa
+        password: sa
+    jdbc-drivers:
+      portfolioH2:
+        driver-class-name: org.h2.Driver
+        xa-datasource-name: org.h2.jdbcx.JdbcDataSource
+        driver-module-name: com.h2database.h2
+  logging:
+    pattern-formatters:
+      LOG_FORMATTER:
+        pattern: "CUSTOM LOG FORMAT %p [%c] %s%e%n"
+    periodic-rotating-file-handlers:
+      FILE:
+        file:
+          path: log/portfolio.log
+        suffix: .yyyy-MM-dd
+        named-formatter: LOG_FORMATTER
+    root-logger:
+      handlers:
+      - CONSOLE
+      - FILE
+  deployment:
+    portfolio:
+      swagger:
+        packages:
+          - com.softeam.presentation.kubernetest.portfolio.webservice.rest
+
