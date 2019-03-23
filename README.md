@@ -79,6 +79,13 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 
 sudo dnf install kubectl
 
+##### Install miniKube
+Launch in your download folder:
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+
+[baptiste@DESKTOP Téléchargements]$ chmod +x minikube
+[baptiste@DESKTOP Téléchargements]$ sudo mv -v minikube /usr/local/bin
+[baptiste@DESKTOP Téléchargements]$ minikube start
 
 #### Console installation:
 ????
