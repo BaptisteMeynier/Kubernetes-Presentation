@@ -63,7 +63,22 @@ a065a091c37f        microprofile/application:1.0.0   "java -jar /opt/ho..."   13
 _______________________________________________
 ## Kubernetes
 
-#### MiniKube installation: 
+#### MiniKube installation:
+##### Under Fedora
+
+Create a file in /etc/yum.repos.d
+sudo vi kubernetes.repo
+''' [Kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+'''
+
+sudo dnf install kubectl
+
 
 #### Console installation:
 ????
