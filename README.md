@@ -86,12 +86,56 @@ curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/miniku
 [baptiste@DESKTOP Téléchargements]$ chmod +x minikube
 [baptiste@DESKTOP Téléchargements]$ sudo mv -v minikube /usr/local/bin
 [baptiste@DESKTOP Téléchargements]$ minikube start
+[baptiste@DESKTOP Téléchargements]$ sudo dnf install Virtualbox
 
-#### Console installation:
-????
+if you get this issue :
+baptiste@DESKTOP-FUI7H3K Téléchargements]$ minikube start
+😄  minikube v0.35.0 on linux (amd64)
+💡  Tip: Use 'minikube start -p <name>' to create a new cluster, or 'minikube delete' to delete this one.
+🔄  Restarting existing virtualbox VM for "minikube" ...
+💣  Unable to start VM: start: Unable to start the VM: /usr/bin/VBoxManage startvm minikube --type headless failed:
+VBoxManage: error: VT-x is disabled in the BIOS for all CPU modes (VERR_VMX_MSR_ALL_VMX_DISABLED)
+VBoxManage: error: Details: code NS_ERROR_FAILURE (0x80004005), component ConsoleWrap, interface IConsole
+
+Details: 00:00:00.345504 Power up failed (vrc=VERR_VMX_MSR_ALL_VMX_DISABLED, rc=NS_ERROR_FAILURE (0X80004005))
+
+😿  Sorry that minikube crashed. If this was unexpected, we would love to hear from you:
+👉  https://github.com/kubernetes/minikube/issues/new
+
+You have to enable VTX in your bios:
+Restart your computer enter in the bios configuration (for me I pressed F2)
+Go to advanced settings > CPU > enable virtualization
+
+[baptiste@DESKTOP-FUI7H3K ~]$ minikube start
+😄  minikube v0.35.0 on linux (amd64)
+💡  Tip: Use 'minikube start -p <name>' to create a new cluster, or 'minikube delete' to delete this one.
+🔄  Restarting existing virtualbox VM for "minikube" ...
+⌛  Waiting for SSH access ...
+📶  "minikube" IP address is 192.168.99.100
+🐳  Configuring Docker as the container runtime ...
+✨  Preparing Kubernetes environment ...
+💾  Downloading kubelet v1.13.4
+💾  Downloading kubeadm v1.13.4
+🚜  Pulling images required by Kubernetes v1.13.4 ...
+🔄  Relaunching Kubernetes v1.13.4 using kubeadm ...
+⌛  Waiting for pods: apiserver
+
+
+##### Launch Dashboard
+
+[baptiste@DESKTOP ~]$  kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended/kubernetes-dashboard.yaml
+
+[baptiste@DESKTOP ~]$ sudo kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended/kubernetes-dashboard.yaml
+
+[baptiste@DESKTOP ~]$ kubectl proxy
+
+[baptiste@DESKTOP Kubernetes-Presentation]$ kubectl apply -f dashboard-adminuser.yaml
+serviceaccount/admin-user created
 
 #### Generate access token: 
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+
+Copy past to http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/overview?namespace=default
 
 #### Create deployment:
 kubectl apply -f portfolio-deployment.yml  
@@ -107,3 +151,7 @@ http://localhost:8080/api/v1/namespaces/default/services/portfolio-service/proxy
 
 
 git clean -d -x -f
+
+_______________________________________________________
+#### References
+https://github.com/kubernetes/dashboard/wiki/Creating-sample-user
